@@ -4,6 +4,7 @@
 #include<windows.h>
 #include<time.h>
 #include<limits.h>
+#include<iostream>
 
 typedef struct{
     int low;
@@ -71,7 +72,7 @@ max_sub find_max_crossing_subarray(int* A,int  low,int  mid,int high)
 }
 
 max_sub find_maximum_subarray_mixed(int* A, int low,int high) {
-    if (high - low < 92) {
+    if (high - low < 29) {
         return Brute_force(A, low, high);
     } else {
         int mid = (low + high) / 2;
@@ -160,15 +161,23 @@ int main(void){
 
 
 	for(i=0;;i++){
-        clockBr_begin = clock();
+    LARGE_INTEGER clockBegin;
+    LARGE_INTEGER clockEnd;
+    LARGE_INTEGER clockBr_begin;
+    LARGE_INTEGER clockBr_end;
+
+
+
+        QueryPerformanceCounter(&clockBr_begin);
         a = Brute_force(input,0,i);
-        clockBr_end = clock();
-        clockBegin = clock();
-        b = find_maximum_subarray_mixed(input ,0,i);
-        clockEnd = clock();
+       QueryPerformanceCounter(&clockBr_end);
+       QueryPerformanceCounter(&clockBegin);
+       b = find_maximum_subarray(input ,0,i);
+        QueryPerformanceCounter(&clockEnd);
 
 
-        if(clockBr_end-clockBr_begin > clockEnd - clockBegin){
+        std::cout << clockBr_end.QuadPart-clockBr_begin.QuadPart << " " << clockEnd.QuadPart - clockBegin.QuadPart << std::endl;
+        if(clockBr_end.QuadPart-clockBr_begin.QuadPart > clockEnd.QuadPart - clockBegin.QuadPart){
             break;
         }
 
@@ -176,7 +185,16 @@ int main(void){
 
 	printf("i = %d\n",i);
 
-
+    /*
+    LARGE_INTEGER m_nFreq;
+    LARGE_INTEGER m_nBeginTime;
+    LARGE_INTEGER nEndTime;
+    QueryPerformanceFrequency(&m_nFreq); // 獲取時鐘週期
+    QueryPerformanceCounter(&m_nBeginTime); // 獲取時鐘計數
+    Sleep(100);
+    QueryPerformanceCounter(&nEndTime);
+    std::cout << (nEndTime.QuadPart-m_nBeginTime.QuadPart)*1000/m_nFreq.QuadPart << std::endl;
+    */
 /*
 for(i=0;;i++){
         clockBr_begin = clock();
@@ -194,8 +212,8 @@ for(i=0;;i++){
 	}
 
 	printf("i = %d\n",i);
-*/
 
+*/
 
 
 
